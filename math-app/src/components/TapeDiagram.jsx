@@ -15,8 +15,8 @@ const BoxDisplay = () => (
 const TapeDiagram = ({ total, left, right, unit }) => {
   
   // 2. 文字列の "box" や "?" が来ても計算できるようにする
-  const valLeft = parseInt(left) || 0;
-  const valRight = parseInt(right) || 0;
+  let valLeft = parseInt(left) || 0;
+  let valRight = parseInt(right) || 0;
   let valTotal = parseInt(total) || 0;
 
   if (!valTotal && valLeft && valRight) {
