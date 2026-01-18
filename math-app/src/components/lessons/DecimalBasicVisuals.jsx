@@ -3,8 +3,9 @@ import React from 'react';
 const DecimalBasicVisuals = ({ contentData }) => {
   if (!contentData) return <div>データがありません</div>;
 
-  const pid = contentData.pattern_id;
-  const nums = contentData.problem.numbers || {};
+  const pid = contentData.pattern_id ?? '';
+  const nums = contentData.problem?.numbers ?? {};
+  const visualStructure = contentData.visual_structure;
 
   // ==========================================
   // モード判定 (厳密に判定)
@@ -20,7 +21,7 @@ const DecimalBasicVisuals = ({ contentData }) => {
   // ==========================================
   if (isVolume) {
     const showFullCup = !pid.includes('U01-P02'); 
-    const fractionalVal = pid.includes('U01-P02') ? 0.1 : (nums.decimal_part || 0.3);
+    const fractionalVal = pid.includes('U01-P02') ? 0.1 : (nums.decimal_part ?? 0.3);
     
     return (
       <div className="w-full h-64 bg-white rounded-xl border-2 border-slate-200 flex items-end justify-center gap-4 pb-4 overflow-hidden relative">
@@ -68,8 +69,8 @@ const DecimalBasicVisuals = ({ contentData }) => {
   // 2. 定規・鉛筆
   // ==========================================
   if (isRuler) {
-    const cm = nums.cm || 8;
-    const mm = nums.mm || 5;
+    const cm = nums.cm ?? 8;
+    const mm = nums.mm ?? 5;
     const pencilLength = 220; 
 
     return (
@@ -102,7 +103,7 @@ const DecimalBasicVisuals = ({ contentData }) => {
   // 3. 数直線
   // ==========================================
   if (isNumberLine) {
-    const target = nums.position || 2.5; 
+    const target = nums.position ?? 2.5; 
     return (
       <div className="w-full h-40 bg-white rounded-xl border-2 border-slate-200 flex items-center justify-center p-6 relative">
          <div className="w-full h-0.5 bg-slate-800 relative flex justify-between items-end">
@@ -131,7 +132,7 @@ const DecimalBasicVisuals = ({ contentData }) => {
   // 4. ブロック
   // ==========================================
   if (isBlocks) {
-    const val = nums.target || nums.a || 2.3;
+    const val = nums.target ?? nums.a ?? 2.3;
     const intPart = Math.floor(val);
     const decPart = Math.round((val - intPart) * 10);
     
@@ -160,7 +161,7 @@ const DecimalBasicVisuals = ({ contentData }) => {
   // 5. 大小比較 シーソー
   // ==========================================
   if (isComparison) {
-    const { a, b } = nums;
+    const { a = 0, b = 0 } = nums;
     const isLeftHeavy = a > b;
     const angle = isLeftHeavy ? -10 : 10;
     
@@ -178,6 +179,22 @@ const DecimalBasicVisuals = ({ contentData }) => {
             </div>
          </div>
          <div className="w-0 h-0 border-l-[20px] border-l-transparent border-r-[20px] border-r-transparent border-b-[40px] border-b-slate-500 absolute bottom-4"></div>
+      </div>
+    );
+  }
+
+  if (visualStructure) {
+    return (
+      <div className="w-full bg-white rounded-xl border-2 border-slate-200 p-4 text-left">
+        <div className="text-xs text-slate-400 font-bold mb-2">イメージ図の説明</div>
+        <p className="text-sm text-slate-700 font-semibold mb-3">{visualStructure.summary}</p>
+        {visualStructure.elements?.length > 0 && (
+          <ul className="list-disc list-inside text-sm text-slate-600 space-y-1">
+            {visualStructure.elements.map((element, index) => (
+              <li key={`${pid}-element-${index}`}>{element}</li>
+            ))}
+          </ul>
+        )}
       </div>
     );
   }
