@@ -193,10 +193,7 @@
     "steps": [
       {
         "step_id": 1,
-        "guide_text": "整数のときと同じように、小数にも「位（くらい）」があるよ。
-
-[Image of place value chart with tenths place]
- 小数点の すぐ 右がわの 位を「十分の一の位（じゅうぶんのいちのくらい）」と いうよ。",
+        "guide_text": "整数のときと同じように、小数にも「位（くらい）」があるよ。\n小数点の すぐ 右がわの 位を「十分の一の位（じゅうぶんのいちのくらい）」と いうよ。",
         "action_type": "definition",
         "highlight_target": "tenths_place_label"
       },
